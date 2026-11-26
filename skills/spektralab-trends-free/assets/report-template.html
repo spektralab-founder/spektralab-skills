@@ -1,0 +1,263 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<div id="cs-report">
+<!--
+  給 AI 的說明：這是固定範本，只改下面 report-data 這一段 JSON。
+  不要改版面、不要加減區塊、不要改 style 和 script。
+  數字欄位填數字；查不到的填 null，畫面會自動顯示「沒讀到」或「未查」。
+  只查一個品牌時，rival 整個留空物件 {}，畫面會自動只顯示一邊。
+  full 預設 false，「這次查不到的」不會顯示；只有使用者明講要看全部時才改成 true。
+-->
+<script id="report-data" type="application/json">
+{
+  "title": "搜尋趨勢秒查",
+  "full": false,
+  "date": "YYYY-MM-DD",
+  "me": {
+    "name": "",
+    "terms": []
+  },
+  "rival": {
+    "name": "",
+    "terms": []
+  },
+  "verdict": "",
+  "trendsLong": {
+    "note": "Google 搜尋趨勢，台灣，過去 5 年，同一次查詢，逐週。數字是相對值，最高的一週為 100；0 代表低於 Google 的顯示門檻，不是沒人搜。",
+    "start": "YYYY-MM-DD",
+    "me": [],
+    "rival": []
+  },
+  "observations": [],
+  "related": {
+    "note": "近 12 個月的相關搜尋（人氣竄升）。",
+    "me": [],
+    "rival": []
+  },
+  "inferences": [],
+  "gaps": [],
+  "sources": []
+}
+</script>
+<style>
+#cs-report{--ink:#111827;--text:#4B5563;--sub:#374151;--weak:#6B7280;--faint:#9CA3AF;--line:#E5E7EB;--cream:#FCFAF2;--brand:#77969A;--s1:#CB1B45;--s2:#58B2DC;
+  background:var(--cream);color:var(--ink);font-family:Geist,-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+  font-size:16px;line-height:1.7;max-width:880px;margin:0 auto;padding:16px;box-sizing:border-box;font-variant-numeric:tabular-nums}
+#cs-report *{box-sizing:border-box}
+#cs-report .hero{background:var(--brand);color:#FFFFFF;border-radius:24px;padding:28px 24px}
+#cs-report h1{font-size:28px;font-weight:700;margin:0;line-height:1.3}
+#cs-report .hero p{margin:6px 0 0;font-size:14px;color:rgba(255,255,255,.9)}
+#cs-report h2{font-size:18px;font-weight:700;margin:0 0 12px}
+#cs-report .card{background:#FFFFFF;border:1px solid var(--line);border-radius:8px;padding:24px;margin-top:16px}
+#cs-report .note{font-size:14px;color:var(--weak);margin:8px 0 0}
+#cs-report .verdict{color:var(--sub)}
+#cs-report table{width:100%;border-collapse:collapse;font-size:14px}
+#cs-report th{background:#F9FAFB;font-weight:600;color:var(--sub);text-align:left;padding:12px 16px;border-bottom:1px solid var(--line)}
+#cs-report td{padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--text)}
+#cs-report td.k{color:var(--sub);font-weight:600;width:24%;min-width:7em}
+#cs-report td.v{color:var(--ink);font-weight:700}
+#cs-report .sw{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:baseline}
+#cs-report .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+#cs-report dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:14px}
+#cs-report dt{color:var(--weak)}
+#cs-report dt.who{color:var(--ink);font-weight:700;grid-column:1 / -1}
+#cs-report dd{margin:0;color:var(--sub)}
+#cs-report ul{margin:0;padding-left:20px;font-size:14px;color:var(--text)}
+#cs-report li{margin:6px 0}
+#cs-report .weak{color:var(--faint);font-weight:400;font-size:14px}
+#cs-report .src li{word-break:break-all}
+#cs-report a{color:var(--ink);font-weight:600;text-decoration:none}
+#cs-report a:hover{text-decoration:underline}
+#cs-report svg{width:100%;height:auto;display:block;overflow:visible}
+#cs-report .show-sm{display:none}
+@media (max-width:600px){#cs-report .hide-sm{display:none}#cs-report .show-sm{display:block;margin-top:4px;font-weight:400;color:var(--weak)}#cs-report th,#cs-report td{padding:12px 8px}#cs-report .card{padding:16px}}
+#cs-report .foot{margin:16px 4px 0;font-size:14px;color:var(--weak)}
+@page{size:A4;margin:12mm}
+@media print{
+  #cs-report{background:#FFFFFF;max-width:none;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #cs-report .card,#cs-report .hero,#cs-report tr,#cs-report li{break-inside:avoid;page-break-inside:avoid}
+  #cs-report h2{break-after:avoid;page-break-after:avoid}
+  #cs-report .no-print{display:none}
+  #cs-report a{text-decoration:none}
+}
+</style>
+
+<div class="hero">
+  <h1 id="cs-title"></h1>
+  <p id="cs-subtitle"></p>
+</div>
+
+<section class="card" id="cs-sec-trends5">
+  <h2>五年搜尋聲量</h2>
+  <div id="cs-c-trends5"></div>
+  <p class="note" id="cs-trends5-note"></p>
+</section>
+
+<section class="card" id="cs-sec-verdict">
+  <h2>一句話結論</h2>
+  <div class="verdict" id="cs-verdict"></div>
+</section>
+
+<section class="card" id="cs-sec-yearly">
+  <h2>逐年平均</h2>
+  <table>
+    <thead id="cs-yearly-head"></thead>
+    <tbody id="cs-yearly"></tbody>
+  </table>
+  <p class="note">由上面的逐週數字自動算出。不滿一年的年份只算有資料的那幾週。</p>
+</section>
+
+<section class="card" id="cs-sec-observations">
+  <h2>從走勢看到的</h2>
+  <ul id="cs-observations"></ul>
+</section>
+
+<section class="card" id="cs-sec-related">
+  <h2>近一年大家還搜什麼</h2>
+  <div class="grid"><dl id="cs-rel-me"></dl><dl id="cs-rel-rival"></dl></div>
+  <p class="note" id="cs-related-note"></p>
+</section>
+
+<section class="card" id="cs-sec-inferences">
+  <h2>推論 <span class="weak">未經驗證</span></h2>
+  <ul id="cs-inferences"></ul>
+</section>
+
+<section class="card" id="cs-sec-gaps">
+  <h2>這次查不到的</h2>
+  <ul id="cs-gaps"></ul>
+</section>
+
+<section class="card" id="cs-sec-sources">
+  <h2>來源</h2>
+  <ul class="src" id="cs-sources"></ul>
+</section>
+
+<p class="foot">這份報告只用公開資料。看得到搜尋聲量，看不到銷量。｜Spektralab 搜尋趨勢秒查 v2（2026-11-26）</p>
+<p class="foot no-print" id="cs-print-hint" style="display:none">要 PDF：按 ⌘P（Windows 按 Ctrl+P），目的地選「儲存為 PDF」。</p>
+
+<script>
+(function(){
+  var root = document.getElementById('cs-report');
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function show(v){ return (v === null || v === undefined || v === '') ? '沒讀到' : v; }
+  function num(v){ return typeof v === 'number' && isFinite(v); }
+  function hide(id){ var e = $(id); if (e) e.style.display = 'none'; }
+  var D;
+  try { D = JSON.parse($('report-data').textContent); }
+  catch(e){ root.insertAdjacentHTML('afterbegin', '<div class="card">報告資料格式有誤，無法顯示：' + esc(e.message) + '</div>'); return; }
+  D.me = D.me || {}; D.rival = D.rival || {};
+  var me = D.me.name || '', rv = D.rival.name || '', two = !!rv;
+  var INK = '#111827', FAINT = '#9CA3AF', LINE = '#E5E7EB';
+  var C1 = two ? '#CB1B45' : INK, C2 = '#58B2DC';
+  function sw(c){ return '<span class="sw" style="background:' + c + '"></span>'; }
+
+  $('cs-title').textContent = two ? (me + ' vs ' + rv) : (me || '報告');
+  $('cs-subtitle').textContent = (D.title || '競品秒查') + '｜查詢日期 ' + (D.date || '') + '｜全部來自公開資料';
+
+  if (D.verdict) $('cs-verdict').textContent = D.verdict; else hide('cs-sec-verdict');
+
+  function niceMax(v){
+    if (!(v > 0)) return 10;
+    var p = Math.pow(10, Math.floor(Math.log(v) / Math.LN10)), steps = [1, 2, 2.5, 5, 10];
+    for (var i = 0; i < steps.length; i++) if (steps[i] * p >= v) return steps[i] * p;
+    return 10 * p;
+  }
+  function axis(W, L, R, max, y){
+    var g = '';
+    for (var k = 0; k <= 4; k++){
+      var v = max * k / 4, yy = y(v);
+      g += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + yy + '" y2="' + yy + '" stroke="' + LINE + '" stroke-dasharray="3 3"/>' +
+           '<text x="' + (L - 6) + '" y="' + (yy + 4) + '" font-size="11" text-anchor="end" fill="' + FAINT + '">' + (Math.round(v * 10) / 10) + '</text>';
+    }
+    return g;
+  }
+  function empty(el){ el.innerHTML = '<p class="note">沒有資料</p>'; }
+
+  var L5 = D.trendsLong;
+  function weekDate(start, i){ var d = new Date(start + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + 7 * i); return d; }
+  function ymd(d){ return d.getUTCFullYear() + '/' + (d.getUTCMonth() + 1) + '/' + d.getUTCDate(); }
+  function longChart(el, L){
+    var a = L.me || [], b = two ? (L.rival || []) : [], n = Math.max(a.length, b.length);
+    if (!n || !L.start){ empty(el); return; }
+    var W = 640, H = 280, Lm = 34, R = 84, T = 18, B = 30;
+    var max = niceMax(Math.max.apply(null, a.concat(b).filter(num).concat([10])));
+    function x(i){ return n === 1 ? Lm : Lm + i * (W - Lm - R) / (n - 1); }
+    function y(v){ return T + (H - T - B) * (1 - v / max); }
+    var g = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="五年搜尋熱度逐週折線圖">' + axis(W, Lm, R, max, y);
+    var lastYear = null;
+    for (var i = 0; i < n; i++){
+      var yr = weekDate(L.start, i).getUTCFullYear();
+      if (lastYear !== null && yr !== lastYear){
+        g += '<line x1="' + x(i) + '" x2="' + x(i) + '" y1="' + T + '" y2="' + (H - B) + '" stroke="' + LINE + '"/>' +
+             '<text x="' + (x(i) + 4) + '" y="' + (H - 8) + '" font-size="11" fill="' + FAINT + '">' + yr + '</text>';
+      }
+      lastYear = yr;
+    }
+    var ends = [];
+    [[a, C1, me], [b, C2, rv]].forEach(function(s){
+      var pts = [], peak = null, last = null;
+      s[0].forEach(function(v, i){ if (num(v)){ pts.push(x(i) + ',' + y(v)); last = [x(i), y(v)]; if (!peak || v > peak.v) peak = { v: v, i: i }; } });
+      if (!pts.length) return;
+      g += '<polyline fill="none" stroke="' + s[1] + '" stroke-width="1.5" stroke-linejoin="round" points="' + pts.join(' ') + '"/>';
+      g += '<circle cx="' + x(peak.i) + '" cy="' + y(peak.v) + '" r="4" fill="#FFFFFF" stroke="' + s[1] + '" stroke-width="2"/>' +
+           '<text x="' + x(peak.i) + '" y="' + (y(peak.v) - 8) + '" font-size="11" text-anchor="middle" fill="' + INK + '">' + ymd(weekDate(L.start, peak.i)) + '｜' + peak.v + '</text>';
+      g += '<circle cx="' + last[0] + '" cy="' + last[1] + '" r="3.5" fill="' + s[1] + '"/>';
+      ends.push({ x: last[0], y: last[1], c: s[1], t: s[2] });
+    });
+    if (ends.length === 2 && Math.abs(ends[0].y - ends[1].y) < 14){
+      var up = ends[0].y <= ends[1].y ? 0 : 1, mid = (ends[0].y + ends[1].y) / 2;
+      ends[up].y = mid - 7; ends[1 - up].y = mid + 7;
+    }
+    ends.forEach(function(e){ g += '<text x="' + (e.x + 8) + '" y="' + (e.y + 4) + '" font-size="12" font-weight="600" fill="' + e.c + '">' + esc(e.t) + '</text>'; });
+    el.innerHTML = g + '</svg>';
+  }
+  if (L5){
+    longChart($('cs-c-trends5'), L5);
+    var warn = (two && (L5.me || []).length !== (L5.rival || []).length) ? '注意：兩邊的週數不一樣，圖可能對不齊。' : '';
+    $('cs-trends5-note').textContent = (L5.note || '') + warn;
+  } else hide('cs-sec-trends5');
+  if (D.trendsLong && D.trendsLong.start && $('cs-yearly')){
+    (function(L){
+      var by = {}, order = [], a = L.me || [], b = L.rival || [], n = Math.max(a.length, b.length);
+      for (var i = 0; i < n; i++){
+        var yr = weekDate(L.start, i).getUTCFullYear();
+        if (!by[yr]){ by[yr] = { a: [], b: [], w: 0 }; order.push(yr); }
+        by[yr].w++; if (num(a[i])) by[yr].a.push(a[i]); if (num(b[i])) by[yr].b.push(b[i]);
+      }
+      function avg(arr){ return arr.length ? arr.reduce(function(s, v){ return s + v; }, 0) / arr.length : null; }
+      function f(v){ return v === null ? '沒讀到' : (Math.round(v * 10) / 10); }
+      $('cs-yearly-head').innerHTML = '<tr><th>年份</th><th>' + sw(C1) + esc(me) + '</th>' + (two ? '<th>' + sw(C2) + esc(rv) + '</th><th>' + esc(me) + ' 是 ' + esc(rv) + ' 的幾倍</th>' : '') + '</tr>';
+      $('cs-yearly').innerHTML = order.map(function(yr){
+        var A = avg(by[yr].a), B2 = avg(by[yr].b), part = by[yr].w < 50 ? '<span class="weak">（' + by[yr].w + ' 週）</span>' : '';
+        var ratio = (A !== null && B2) ? (Math.round(A / B2 * 10) / 10) + ' 倍' : '—';
+        return '<tr><td class="k">' + yr + ' ' + part + '</td><td class="v">' + f(A) + '</td>' + (two ? '<td class="v">' + f(B2) + '</td><td>' + ratio + '</td>' : '') + '</tr>';
+      }).join('');
+    })(D.trendsLong);
+  } else hide('cs-sec-yearly');
+  if (D.related){
+    var relBlock = function(el, label, color, arr){
+      el.innerHTML = '<dt class="who">' + sw(color) + esc(label) + '</dt>' +
+        ((arr && arr.length) ? arr.map(function(s, i){ return '<dt>' + (i + 1) + '</dt><dd>' + esc(s) + '</dd>'; }).join('') : '<dt></dt><dd>沒讀到</dd>');
+    };
+    relBlock($('cs-rel-me'), me, C1, D.related.me);
+    if (two) relBlock($('cs-rel-rival'), rv, C2, D.related.rival); else hide('cs-rel-rival');
+    $('cs-related-note').textContent = D.related.note || '';
+  } else hide('cs-sec-related');
+
+  function list(sec, id, arr, link){
+    if (!$(id)) return;
+    if (!arr || !arr.length){ hide(sec); return; }
+    $(id).innerHTML = arr.map(function(s){
+      return '<li>' + (link ? '<a href="' + esc(s) + '" target="_blank" rel="noopener">' + esc(s) + '</a>' : esc(s)) + '</li>';
+    }).join('');
+  }
+  list('cs-sec-observations', 'cs-observations', D.observations);
+  list('cs-sec-inferences', 'cs-inferences', D.inferences);
+  list('cs-sec-gaps', 'cs-gaps', D.full === true ? D.gaps : null);
+  list('cs-sec-sources', 'cs-sources', D.sources, true);
+  try { if (window.self === window.top && location.protocol === 'file:') $('cs-print-hint').style.display = ''; } catch (e) {}
+})();
+</script>
+</div>
