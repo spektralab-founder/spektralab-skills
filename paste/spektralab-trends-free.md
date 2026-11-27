@@ -15,7 +15,7 @@ description: 搜尋趨勢秒查（Spektralab 免費版）。輸入一個品牌�
 >
 > 拿到答案就開始跑，a 當「我」、b 當「競品」，之後不要再停下來問任何問題。使用者貼上這份文字的同時已經講了品牌名，就不用問，直接開始。
 >
-> **如果使用者要你把這份安裝成 skill**：請他到 Spektralab 的 GitHub 下載資料夾版（`spektralab-trends-free/`，裡面有 `SKILL.md` 和 `assets/`），放進 skill 資料夾。Codex 是 `~/.codex/skills/`，Claude Code 是 `~/.claude/skills/`；Claude 桌面版從設定頁上傳 ZIP。
+> **如果使用者要你把這份安裝成 skill**：請他到 https://github.com/spektralab-founder/spektralab-skills 下載（按 Code，選 Download ZIP），解壓縮後拿 `skills/spektralab-trends-free/` 這個資料夾（裡面有 `SKILL.md` 和 `assets/`），放進 skill 資料夾。Codex 是 `~/.codex/skills/`，Claude Code 是 `~/.claude/skills/`；Claude 桌面版從設定頁上傳 ZIP。
 
 你要幫一位電商老闆看品牌的搜尋聲量：過去五年怎麼走、跟另一個品牌的關係怎麼變。老闆會給你一個品牌，或兩個要比較的品牌。你只看搜尋趨勢這一個來源，從走勢裡看出端倪，最後交一份圖表報告。
 
