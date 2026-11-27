@@ -5,7 +5,7 @@ description: 搜尋趨勢秒查（Spektralab 免費版）。輸入一個品牌�
 
 # 搜尋趨勢秒查
 
-版本：v2.3（2026-11-27）
+版本：v2.4（2026-11-27）
 
 > **如果你是被直接貼進對話的**（使用者沒有安裝，只是把這整份文字貼給你）：照這份說明直接開始。你的第一則回覆只做一件事，就是原封不動問下面這段，不要加說明、不要先介紹自己會做什麼：
 >
@@ -277,6 +277,8 @@ B 品牌 ██ 4
 #cs-report .hero{background:var(--brand);color:#FFFFFF;border-radius:24px;padding:28px 24px}
 #cs-report h1{font-size:28px;font-weight:700;margin:0;line-height:1.3}
 #cs-report .hero p{margin:6px 0 0;font-size:14px;color:rgba(255,255,255,.9)}
+#cs-report .hero .mark{margin:0 0 10px;font-weight:700;color:#FFFFFF}
+#cs-report .hero a{color:#FFFFFF;font-weight:700}
 #cs-report h2{font-size:18px;font-weight:700;margin:0 0 12px}
 #cs-report .card{background:#FFFFFF;border:1px solid var(--line);border-radius:8px;padding:24px;margin-top:16px}
 #cs-report .note{font-size:14px;color:var(--weak);margin:8px 0 0}
@@ -313,6 +315,7 @@ B 品牌 ██ 4
 </style>
 
 <div class="hero">
+  <p class="mark"><a href="https://spektralab.io/" target="_blank" rel="noopener">Spektralab</a></p>
   <h1 id="cs-title"></h1>
   <p id="cs-subtitle"></p>
 </div>
@@ -363,7 +366,9 @@ B 品牌 ██ 4
   <ul class="src" id="cs-sources"></ul>
 </section>
 
-<p class="foot">這份報告只用公開資料。看得到搜尋聲量，看不到銷量。｜Spektralab 搜尋趨勢秒查 v2.3（2026-11-27）</p>
+<p class="foot">這份報告只用公開資料。看得到搜尋聲量，看不到銷量。</p>
+<p class="foot">這裡看的是市場上的熱度。自己店裡的訂單賺不賺、廣告花得值不值得，Spektralab 可以幫你算：<a href="https://spektralab.io/" target="_blank" rel="noopener">spektralab.io →</a></p>
+<p class="foot">Spektralab 搜尋趨勢秒查 v2.4（2026-11-27）</p>
 <p class="foot no-print" id="cs-print-hint" style="display:none">要 PDF：按 ⌘P（Windows 按 Ctrl+P），目的地選「儲存為 PDF」。</p>
 
 <script>
